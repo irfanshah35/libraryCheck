@@ -1,9 +1,9 @@
 import 'zone.js'; // ✅ required for Angular with zones
 import { bootstrapApplication } from '@angular/platform-browser';
-import { App } from './app/app';
+import { AppComponent } from './app/app';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 
-bootstrapApplication(App, {
+bootstrapApplication(AppComponent, {
   providers: [
    provideHttpClient(withFetch()),
   ]

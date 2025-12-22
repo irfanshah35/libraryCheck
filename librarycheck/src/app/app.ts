@@ -7,26 +7,14 @@ import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
+  templateUrl: './app.html',
+  styleUrls: ['./app.css'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent   {
   constructor(
     private readonly api: ApiService,
     private readonly idb: AppIdbService
   ) {}
 
-  async ngOnInit(): Promise<void> {
-    try {
-      const data = await this.idb.fetchWithCache(
-        'allEventList',
-        minutesToMs(1),
-        () => lastValueFrom(this.api.getAllEvents())
-      );
-
-      console.log('All Events:', data);
-    } catch (error) {
-      console.error('Failed to load events:', error);
-    }
-  }
+  
 }

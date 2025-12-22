@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IdbService as CoreIdbService } from 'universe-code/indexdb';
-// If your bundler does not support subpath exports, use this instead:
-// import { IdbService as CoreIdbService } from 'universe-code/dist/indexdb/services/idbService.js';
+import { IdbService as CoreIdbService } from 'universe-code/angular';
 
 interface IdbConfig {
   dbName: string;
@@ -9,38 +7,51 @@ interface IdbConfig {
   storeName: string;
 }
 
-// Centralized IndexedDB configuration for this Angular app
 const IDB_CONFIG: IdbConfig = {
-  dbName: 'db',
+  dbName: 'dynamicDB',
   version: 1,
   storeName: 'store',
 };
 
 @Injectable({ providedIn: 'root' })
 export class AppIdbService {
-  private readonly client = new CoreIdbService(IDB_CONFIG);
+  private client: any;
 
-  fetchWithCache<T>(
-    key: string,
-    ttlMs: number,
-    apiFn: () => Promise<T>
-  ): Promise<T | null> {
-    return this.client.getWithExpiry(key, ttlMs, apiFn);
+  constructor() {
+    this.client = new CoreIdbService(IDB_CONFIG);
+
+    // 🔥 Force IndexedDB + objectStore creation when service is constructed
+    this.client
+      .connect()
+      .then(() => {
+        console.log('IndexedDB connected / created');
+      })
+      .catch((err: any) => {
+        console.error('IndexedDB connect error:', err);
+      });
   }
 
-  get<T = any>(key: string): Promise<T | null> {
+  fetchWithExpiry(
+    key: string,
+    ttl: number,
+    apiFn: () => Promise<any>
+  ) {
+    return this.client.getWithExpiry(key, ttl, apiFn);
+  }
+
+  get(key: string) {
     return this.client.get(key);
   }
 
-  set(data: any): Promise<any> {
+  set(data: any) {
     return this.client.put(data);
   }
 
-  remove(key: string): Promise<any> {
+  remove(key: string) {
     return this.client.remove(key);
   }
 
-  clear(): Promise<any> {
+  clear() {
     return this.client.clear();
   }
 }
