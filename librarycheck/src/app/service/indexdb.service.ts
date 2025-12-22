@@ -1,92 +1,46 @@
 import { Injectable } from '@angular/core';
-import { DBManager, DB } from 'universe-code/indexdb';
+import { IdbService as CoreIdbService } from 'universe-code/indexdb';
+// If your bundler does not support subpath exports, use this instead:
+// import { IdbService as CoreIdbService } from 'universe-code/dist/indexdb/services/idbService.js';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class IndexedDbService {
-  private manager = new DBManager('exchange', 1);
-  private db!: IDBDatabase;
-  private store: {
-    get: (key: string) => Promise<any>;
-    getWithExpiry: (
-      key: string,
-      ttl: number,
-      api: () => Promise<any>
-    ) => Promise<any>;
-    put: (data: any) => Promise<any>;
-    remove: (key: string) => Promise<any>;
-    clear: () => Promise<any>;
-  } | null = null;
+interface IdbConfig {
+  dbName: string;
+  version: number;
+  storeName: string;
+}
 
-  private readonly storeName = 'exchangeStore';
+// Centralized IndexedDB configuration for this Angular app
+const IDB_CONFIG: IdbConfig = {
+  dbName: 'db',
+  version: 1,
+  storeName: 'store',
+};
 
-  /**
-   * Initialize DB + Store only once (Singleton)
-   */
-  private async getStore() {
-    if (!this.store) {
-      if (!this.db) {
-        this.db = await this.manager.connect([
-          { name: this.storeName }
-        ]);
-      }
+@Injectable({ providedIn: 'root' })
+export class AppIdbService {
+  private readonly client = new CoreIdbService(IDB_CONFIG);
 
-      this.store = {
-        get: (key: string) =>
-          DB.get(this.db, this.storeName, key),
-
-        getWithExpiry: (
-          key: string,
-          ttl: number,
-          api: () => Promise<any>
-        ) =>
-          DB.getWithExpiry(this.db, this.storeName, key, ttl, api),
-
-        put: (data: any) =>
-          DB.put(this.db, this.storeName, data),
-
-        remove: (key: string) =>
-          DB.remove(this.db, this.storeName, key),
-
-        clear: () =>
-          DB.clear(this.db, this.storeName)
-      };
-    }
-
-    return this.store;
-  }
-
-  /* =======================
-     PUBLIC METHODS
-     ======================= */
-
-  async fetchWithCache(
+  fetchWithCache<T>(
     key: string,
-    ttl: number,
-    apiFn: () => Promise<any>
-  ) {
-    const store = await this.getStore();
-    return store.getWithExpiry(key, ttl, apiFn);
+    ttlMs: number,
+    apiFn: () => Promise<T>
+  ): Promise<T | null> {
+    return this.client.getWithExpiry(key, ttlMs, apiFn);
   }
 
-  async get(key: string) {
-    const store = await this.getStore();
-    return store.get(key);
+  get<T = any>(key: string): Promise<T | null> {
+    return this.client.get(key);
   }
 
-  async set(data: any) {
-    const store = await this.getStore();
-    return store.put(data);
+  set(data: any): Promise<any> {
+    return this.client.put(data);
   }
 
-  async remove(key: string) {
-    const store = await this.getStore();
-    return store.remove(key);
+  remove(key: string): Promise<any> {
+    return this.client.remove(key);
   }
 
-  async clear() {
-    const store = await this.getStore();
-    return store.clear();
+  clear(): Promise<any> {
+    return this.client.clear();
   }
 }

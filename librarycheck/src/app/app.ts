@@ -1,41 +1,32 @@
-import { Component, OnInit, signal } from '@angular/core';
-import { IndexedDbService } from './service/indexdb.service';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
+import { AppIdbService } from './service/indexdb.service';
+import { ApiService } from './service/api.service';
+import { minutesToMs } from 'universe-code/core';
 import { lastValueFrom } from 'rxjs';
-import { CommonModule } from '@angular/common';
-import { ExchangeService } from '../app/service/exchange.service';
+
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.html',
-  styleUrls: ['./app.css'],
-  standalone: true,
-  imports: [CommonModule, HttpClientModule]
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css'],
 })
-export class App implements OnInit {
-  user = signal<any>(null);
-  title = signal('librarycheck');
-  events: any;
+export class AppComponent implements OnInit {
+  constructor(
+    private readonly api: ApiService,
+    private readonly idb: AppIdbService
+  ) {}
 
-  constructor(private http: HttpClient, private dbService: IndexedDbService) { }
-  async ngOnInit() {
-  const data = await this.dbService.fetchWithCache(
-    'allEventList',
-    5 * 60 * 1000,
-    () =>
-      lastValueFrom(
-        this.http.post(
-          'https://t20exch.com/api/navigation/allEventsList',
-          {}  
-        )
-      )
-  );
+  async ngOnInit(): Promise<void> {
+    try {
+      const data = await this.idb.fetchWithCache(
+        'allEventList',
+        minutesToMs(1),
+        () => lastValueFrom(this.api.getAllEvents())
+      );
 
-  console.log('Events:', data);
+      console.log('All Events:', data);
+    } catch (error) {
+      console.error('Failed to load events:', error);
+    }
+  }
 }
-
-
-}
-
-
-
