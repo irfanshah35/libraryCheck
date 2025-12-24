@@ -1,1 +1,105 @@
- <h1>app home</h1>
+<h1>App Home</h1>
+
+<div style="margin-top: 20px;">
+  <button routerLink="/exchange">
+    Go to Exchange
+  </button>
+
+  <button routerLink="/domi" style="margin-left: 10px;">
+    Go to Domi
+  </button>
+</div>
+<br>
+<!--  -->
+<div class="toaster-demo-container">
+  <h1 class="title">🎲 Universe Toaster Demo</h1>
+
+  <div class="button-grid">
+    <!-- Success Toasts -->
+    <div class="category">
+      <h3 class="category-title">✅ Success Toasts</h3>
+      <button class="btn btn-success" (click)="showSuccess()">
+        Basic Success
+      </button>
+      <button class="btn btn-success" (click)="showBetSuccess()">
+        Bet Placed Success
+      </button>
+      <button class="btn btn-success" (click)="showDepositSuccess()">
+        Deposit Success
+      </button>
+      <button class="btn btn-success" (click)="showWinning()">
+        Winning Bet!
+      </button>
+    </div>
+
+    <!-- Error Toasts -->
+    <div class="category">
+      <h3 class="category-title">❌ Error Toasts</h3>
+      <button class="btn btn-error" (click)="showError()">
+        Basic Error
+      </button>
+      <button class="btn btn-error" (click)="showInsufficientBalance()">
+        Insufficient Balance
+      </button>
+      <button class="btn btn-error" (click)="showLoginFailed()">
+        Login Failed
+      </button>
+      <button class="btn btn-error" (click)="showBetLost()">
+        Bet Lost
+      </button>
+    </div>
+
+    <!-- Warning Toasts -->
+    <div class="category">
+      <h3 class="category-title">⚠️ Warning Toasts</h3>
+      <button class="btn btn-warning" (click)="showWarning()">
+        Basic Warning
+      </button>
+      <button class="btn btn-warning" (click)="showOddsChanged()">
+        Odds Changed
+      </button>
+      <button class="btn btn-warning" (click)="showLowBalance()">
+        Low Balance
+      </button>
+      <button class="btn btn-warning" (click)="showAccountLocked()">
+        Account Locked
+      </button>
+    </div>
+
+    <!-- Info Toasts -->
+    <div class="category">
+      <h3 class="category-title">ℹ️ Info Toasts</h3>
+      <button class="btn btn-info" (click)="showInfo()">
+        Basic Info
+      </button>
+      <button class="btn btn-info" (click)="showProcessing()">
+        Processing Bet
+      </button>
+      <button class="btn btn-info" (click)="showEmailVerification()">
+        Email Verification
+      </button>
+      <button class="btn btn-info" (click)="showBetActive()">
+        Bet Active
+      </button>
+    </div>
+
+    <!-- Special Actions -->
+    <div class="category">
+      <h3 class="category-title">🎯 Special Actions</h3>
+      <button class="btn btn-special" (click)="showMultipleToasts()">
+        Multiple Toasts
+      </button>
+      <button class="btn btn-special" (click)="showLongToast()">
+        Long Duration (10s)
+      </button>
+      <button class="btn btn-special" (click)="showPersistentToast()">
+        Persistent (No Auto-dismiss)
+      </button>
+      <button class="btn btn-clear" (click)="clearAllToasts()">
+        🗑️ Clear All Toasts
+      </button>
+    </div>
+  </div>
+</div>
+
+<router-outlet></router-outlet>

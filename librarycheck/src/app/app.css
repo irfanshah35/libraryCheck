@@ -1,0 +1,139 @@
+.toaster-demo-container {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  padding: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  box-sizing: border-box;
+}
+
+.title {
+  text-align: center;
+  color: white;
+  margin-bottom: 30px;
+  font-size: 2.5rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.button-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.category {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  padding: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.category-title {
+  color: white;
+  margin-bottom: 15px;
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.btn {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn-success {
+  background: linear-gradient(45deg, #28a745, #20c997);
+  color: white;
+}
+
+.btn-success:hover {
+  background: linear-gradient(45deg, #218838, #1aa179);
+}
+
+.btn-error {
+  background: linear-gradient(45deg, #dc3545, #e74c3c);
+  color: white;
+}
+
+.btn-error:hover {
+  background: linear-gradient(45deg, #c82333, #cc3d2f);
+}
+
+.btn-info {
+  background: linear-gradient(45deg, #17a2b8, #3498db);
+  color: white;
+}
+
+.btn-info:hover {
+  background: linear-gradient(45deg, #138496, #2980b9);
+}
+
+.btn-warning {
+  background: linear-gradient(45deg, #ffc107, #f39c12);
+  color: #212529;
+}
+
+.btn-warning:hover {
+  background: linear-gradient(45deg, #e0a800, #d68910);
+}
+
+.btn-special {
+  background: linear-gradient(45deg, #6f42c1, #9b59b6);
+  color: white;
+}
+
+.btn-special:hover {
+  background: linear-gradient(45deg, #5a32a3, #8e44ad);
+}
+
+.btn-clear {
+  background: linear-gradient(45deg, #6c757d, #495057);
+  color: white;
+  font-size: 16px;
+}
+
+.btn-clear:hover {
+  background: linear-gradient(45deg, #5a6268, #3d4449);
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .title {
+    font-size: 2rem;
+  }
+
+  .button-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .category {
+    padding: 15px;
+  }
+
+  .btn {
+    padding: 10px 16px;
+    font-size: 13px;
+  }
+}
