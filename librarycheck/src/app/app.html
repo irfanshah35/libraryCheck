@@ -1,3 +1,4 @@
+<div class="main">
 <div class="boxx">
   <button (click)="success()">Show success</button>
   <br /><br />
@@ -16,18 +17,5 @@
 <button (click)="goDomi()">Go to Domi</button>
 
 <hr />
-
-<div>
-  <p>
-    BAL :
-    <b class="userTotalBalance">{{ userBalance }}</b>
-  </p>
-
-  <p>
-    Exposure :
-    <b class="userTotalExposure">{{ userExposure }}</b>
-  </p>
-</div>
-
-<hr />
 <router-outlet></router-outlet>
+</div>
